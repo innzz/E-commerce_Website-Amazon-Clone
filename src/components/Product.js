@@ -2,7 +2,7 @@ import React from 'react';
 import StarIcon from '@mui/icons-material/Star';
 import './Product.css'
 
-function Product({title,price,image,rating}) {
+function Product({id,title,price,image,rating}) {
   return (
     <div className='product'>
       <div className="product_info">
@@ -13,7 +13,7 @@ function Product({title,price,image,rating}) {
           </p>
           <div className="product_rating">
               {Array(rating).fill().map((_,i)=>(
-                  <StarIcon />
+                  <StarIcon key={i}/>
               ))}
           </div>
       </div>

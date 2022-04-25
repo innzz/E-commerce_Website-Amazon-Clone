@@ -8,7 +8,7 @@ import { useStateValue } from '../StateProvider'
 function Header() {
   const [{ basket }] = useStateValue();
   return (
-    <div className='header'>
+    <div className='header' >
       <Link to="/">
       <img
         className='header_logo'

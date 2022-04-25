@@ -1,23 +1,29 @@
 import React from 'react';
 import StarIcon from '@mui/icons-material/Star';
 import './Product.css';
-import { useStateValue } from '../StateProvider'
+import { useStateValue } from '../StateProvider';
+import {addToBasketAction} from '../Action'
 
-function Product({id,title,price,image,rating}) {
+function Product({id,title,price,image,rating,type}) {
+  // eslint-disable-next-line
   const [{ basket },dispatch] = useStateValue();
-  console.log(basket)
   const addToBasket = ()=>{
-        dispatch({
-          type:'ADD_TO_BASKET',
-          item:{
-            id:id,
-            title:title,
-            price:price,
-            image:image,
-            rating:rating
-          }
-        })
-  }
+    //Sending action through dispatch directly
+
+    // dispatch({
+      //   type:'ADD_TO_BASKET',
+      //   item:{
+        //     id:id,
+        //     title:title,
+        //     price:price,
+        //     image:image,
+        //     rating:rating
+        //   }
+        // })
+
+        //Sending action through dispatch making action file
+        dispatch(addToBasketAction(id,title,price,image,rating,type));
+      }
 
   return (
     <div className='product'>

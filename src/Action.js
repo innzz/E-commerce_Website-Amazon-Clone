@@ -12,4 +12,11 @@ export const addToBasketAction=(id,title,price,image,rating,type)=>{
             time:new Date().toLocaleTimeString()
         }
     }
-}
+};
+
+export const removeFromBasket = (id)=>{
+    return {
+        type: "REMOVE_FROM_BASKET",
+        id:id
+    }
+};

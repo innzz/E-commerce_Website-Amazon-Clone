@@ -7,16 +7,17 @@ import {
   Route,
 } from "react-router-dom";
 import Checkout from './components/Checkout';
+import Login from './components/Login';
 
 function App() {
   //BEM
   return (
     <Router>
     <div className="App">
-      <Header />
       <Routes>
-      <Route exact path='/' element={<Home />}/> 
-      <Route exact path='/checkout' element={<Checkout />} />
+      <Route exact path='/login' element={<Login />} />
+      <Route exact path='/' element={<><Header /><Home /></>}/> 
+      <Route exact path='/checkout' element={<><Header /><Checkout /></>} />
       </Routes>
     </div>
     </Router>

@@ -20,3 +20,10 @@ export const removeFromBasket = (id)=>{
         id:id
     }
 };
+
+export const setUser = (authUser)=>{
+    return {
+        type:'SET_USER',
+        user:authUser
+    }
+}

@@ -1,18 +1,25 @@
-import React from 'react';
-import '../components/Payment.css';
+import React, { useState } from 'react';
+import '../components/PaymentStripe.css';
 import { useStateValue } from '../StateProvider';
 import CheckoutProduct from './CheckoutProduct';
 import {Link} from 'react-router-dom';
-import { CardElement,useElements, useStripe } from '@stripe/react-stripe-js';
+import { useElements, useStripe } from '@stripe/react-stripe-js';
+import {CardElement} from '@stripe/react-stripe-js';
+import CurrencyFormat from 'react-currency-format';
+import { getBasketTotal } from '../reducer';
 
-function Payment() {
+function PaymentStripe() {
     const [{basket,user}, dispatch] = useStateValue();
 
     const stripe = useStripe();
     const elements = useElements();
 
-    const handleOnChange = ()=>{
+    const [error,setError] = useState(null);
+    const [disabled,setDisabled] = useState(true);
 
+    const handleOnChange = (e)=>{
+        setDisabled(e.empty);
+        setError(e.error?e.error.message:"")
     };
 
     const handleOnSubmit= ()=>{
@@ -20,6 +27,7 @@ function Payment() {
     };
 
   return (
+      
     <div className="payment">
         <div className="payment_container">
             <h1>
@@ -56,9 +64,25 @@ function Payment() {
                     <h3>Payment Method</h3>
                 </div>
                 <div className="payment_details">
-                    {/* Stripe magic will be here */}
                     <form onSubmit={handleOnSubmit}>
-                        <CardElement onChange={handleOnChange}/>
+                        <CardElement  onChange={handleOnChange}/>  
+                        <div className="payment_priceContainer">
+                        <CurrencyFormat 
+                            renderText={(value)=>(
+                                <>
+                                <p>
+                                    Subtotal ({basket.length} items):
+                                    <strong>{value}</strong>
+                                </p>
+                                </>
+                            )}
+                            decimalScale={2}
+                            value={getBasketTotal(basket)}
+                            displayType={"text"}
+                            thousandSeparator={true}
+                            prefix={'₹'}
+                        />
+                        </div>
                     </form>
                 </div>
             </div>
@@ -67,4 +91,4 @@ function Payment() {
   )
 }
 
-export default Payment;
+export default PaymentStripe;

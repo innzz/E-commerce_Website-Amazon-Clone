@@ -12,7 +12,7 @@ import { useEffect } from 'react';
 import { auth } from './firebase';
 import { useStateValue } from './StateProvider';
 import { setUser } from './Action';
-import Payment from './components/Payment';
+import PaymentStripe from './components/PaymentStripe';
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 
@@ -22,7 +22,7 @@ function App() {
   //BEM
   // eslint-disable-next-line 
   const [{}, dispatch] = useStateValue();
-
+  
   useEffect(()=>{
       //will only run once when the app component runs
 
@@ -47,7 +47,12 @@ function App() {
     <div className="App">
       <Routes>
       <Route exact path='/login' element={<Login />} />
-      <Route exact path='/payment' element={<><Header /><Elements stripe={promise}><Payment /></Elements></>} />
+      <Route exact path='/payment' element={<>
+      <Header />
+      <Elements stripe={promise}>
+        <PaymentStripe />
+      </Elements>
+      </>} />
       <Route exact path='/' element={<><Header /><Home /></>}/> 
       <Route exact path='/checkout' element={<><Header /><Checkout /></>} />
       </Routes>

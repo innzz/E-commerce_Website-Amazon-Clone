@@ -12,17 +12,20 @@ import { useEffect } from 'react';
 import { auth } from './firebase';
 import { useStateValue } from './StateProvider';
 import { setUser } from './Action';
-import PaymentStripe from './components/PaymentStripe';
+import Payment from './components/Payment';
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 
-const promise = loadStripe('pk_test_51KuKq4SBGQM7bc6w1NaxMQ7th0GLJ5jRtaGpoJ1DIUNGm2Ucjv1wNvA6FjB7K74ygcIG6u6u0z75J6sWZtyRKHnL00lE1EiqES');
 
-function App() {
+  const promise =  loadStripe('pk_test_51KuKq4SBGQM7bc6w1NaxMQ7th0GLJ5jRtaGpoJ1DIUNGm2Ucjv1wNvA6FjB7K74ygcIG6u6u0z75J6sWZtyRKHnL00lE1EiqES');
+
+  console.log("Before the app function ",promise)
+  function App() {
+      console.log("In the app function ",promise)
   //BEM
   // eslint-disable-next-line 
   const [{}, dispatch] = useStateValue();
-  
+
   useEffect(()=>{
       //will only run once when the app component runs
 
@@ -47,12 +50,7 @@ function App() {
     <div className="App">
       <Routes>
       <Route exact path='/login' element={<Login />} />
-      <Route exact path='/payment' element={<>
-      <Header />
-      <Elements stripe={promise}>
-        <PaymentStripe />
-      </Elements>
-      </>} />
+      <Route exact path='/payment' element={<><Header /><Elements stripe={promise}><Payment /></Elements></>} />
       <Route exact path='/' element={<><Header /><Home /></>}/> 
       <Route exact path='/checkout' element={<><Header /><Checkout /></>} />
       </Routes>

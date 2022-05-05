@@ -19,9 +19,6 @@ function Subtotal() {
                       Subtotal ({basket.length} items):
                       <strong>{value}</strong>
                   </p>
-                  <small className='subtotal_gift'>
-                      <input type="checkbox" />This order contains gift
-                  </small>
                   </>
               )}
               decimalScale={2}

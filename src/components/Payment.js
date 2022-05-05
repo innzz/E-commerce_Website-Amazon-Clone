@@ -8,6 +8,7 @@ import { CardElement,useElements, useStripe } from '@stripe/react-stripe-js';
 import CurrencyFormat from 'react-currency-format';
 import { getBasketTotal } from '../reducer';
 import axios from 'axios';
+import instance from '../axios';
 
 function Payment() {
     const navigate = useNavigate();
@@ -23,17 +24,22 @@ function Payment() {
     const [clientSecret, setclientSecret] = useState(true);
 
     useEffect(() => {
-
-        const getClientSecret = async()=>{
-            const response = await axios({
-                method: 'POST',
-                url: `/payment/create?total=${getBasketTotal(basket) * 100}`
-            })
-            setclientSecret(response.data.clientSecret)
+        // generate the special stripe secret which allows us to charge a customer
+        const getClientSecret = async () => {
+                
+                const response = await axios({
+                    method: 'post',
+                    // Stripe expects the total in a currencies subunits
+                    url: `http://localhost:5001/clone-228d2/us-central1/api/payment/create?total=${getBasketTotal(basket) * 100}`
+                });
+                console.log(response.data.clientSecret)
+                setclientSecret(response.data.clientSecret)
         }
 
         getClientSecret();
     }, [basket])
+
+    console.log('THE SECRET IS >>>', clientSecret)
     
 
     
@@ -106,10 +112,7 @@ function Payment() {
                         <CurrencyFormat 
                             renderText={(value)=>(
                                 <>
-                                <p>
-                                    Subtotal ({basket.length} items):
-                                    <strong>{value}</strong>
-                                </p>
+                                    <h3>Order Total: {value}</h3>
                                 </>
                             )}
                             decimalScale={2}

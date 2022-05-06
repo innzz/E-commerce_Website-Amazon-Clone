@@ -8,7 +8,7 @@ import { CardElement,useElements, useStripe } from '@stripe/react-stripe-js';
 import CurrencyFormat from 'react-currency-format';
 import { getBasketTotal } from '../reducer';
 import axios from 'axios';
-import instance from '../axios';
+
 
 function Payment() {
     const navigate = useNavigate();
@@ -23,17 +23,22 @@ function Payment() {
     const [disabled, setdisabled] = useState(true);
     const [clientSecret, setclientSecret] = useState(true);
 
+    axios.defaults.baseURL="http://localhost:5001/clone-228d2/us-central1/api";
     useEffect(() => {
         // generate the special stripe secret which allows us to charge a customer
-        const getClientSecret = async () => {
-                
-                const response = await axios({
-                    method: 'post',
-                    // Stripe expects the total in a currencies subunits
-                    url: `http://localhost:5001/clone-228d2/us-central1/api/payment/create?total=${getBasketTotal(basket) * 100}`
-                });
-                console.log(response.data.clientSecret)
-                setclientSecret(response.data.clientSecret)
+        const getClientSecret = () => {
+                // const response = await axios({
+                //     method: 'POST',
+                //     // Stripe expects the total in a currencies subunits
+                //     url: `/payment/create?total=${getBasketTotal(basket) * 100}`
+                // });
+                // setclientSecret(response.data.clientSecret)
+                axios.post(`/payment/create?total=${getBasketTotal(basket) * 100}`).then((res)=>{
+                    console.log(res);
+                })
+                .catch((err)=>{
+                    console.log(err)
+                })
         }
 
         getClientSecret();

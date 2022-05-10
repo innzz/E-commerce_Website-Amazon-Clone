@@ -35,10 +35,9 @@ function Payment() {
                 });
                setclientSecret(response.data.client_secret) 
             } catch (error) {
-               alert("Please add something in your cart"); 
+               alert("Please add something in your Basket"); 
             }
         }
-
         getClientSecret();
     }, [basket])
 
@@ -54,8 +53,8 @@ function Payment() {
             payment_method:{
                 card: elements.getElement(CardElement)
             }
-        }).then(({paymentIntent})=>{
-            //payment = payment confirmation
+        }).then(({ paymentIntent })=>{
+            //paymentIntent = payment confirmation
             setsucceeded(true);
             seterror(null);
             setprocessing(false);

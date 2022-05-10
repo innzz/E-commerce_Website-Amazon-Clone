@@ -26,19 +26,17 @@ function Payment() {
     axios.defaults.baseURL="http://localhost:5001/clone-228d2/us-central1/api";
     useEffect(() => {
         // generate the special stripe secret which allows us to charge a customer
-        const getClientSecret = () => {
-                // const response = await axios({
-                //     method: 'POST',
-                //     // Stripe expects the total in a currencies subunits
-                //     url: `/payment/create?total=${getBasketTotal(basket) * 100}`
-                // });
-                // setclientSecret(response.data.clientSecret)
-                axios.post(`/payment/create?total=${getBasketTotal(basket) * 100}`).then((res)=>{
-                    console.log(res);
-                })
-                .catch((err)=>{
-                    console.log(err)
-                })
+        const getClientSecret = async () => {
+            try {
+                const response = await axios({
+                    method: 'POST',
+                    // Stripe expects the total in a currencies subunits
+                    url: `/payment/create?total=${getBasketTotal(basket) * 100}`
+                });
+               setclientSecret(response.data.client_secret) 
+            } catch (error) {
+               alert("Please add something in your cart"); 
+            }
         }
 
         getClientSecret();

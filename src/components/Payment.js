@@ -11,6 +11,7 @@ import axios from 'axios';
 
 
 function Payment() {
+
     const navigate = useNavigate();
     const [{basket,user}, dispatch] = useStateValue();
 
@@ -23,20 +24,17 @@ function Payment() {
     const [disabled, setdisabled] = useState(true);
     const [clientSecret, setclientSecret] = useState(true);
 
+
     axios.defaults.baseURL="http://localhost:5001/clone-228d2/us-central1/api";
     useEffect(() => {
         // generate the special stripe secret which allows us to charge a customer
         const getClientSecret = async () => {
-            try {
                 const response = await axios({
                     method: 'POST',
                     // Stripe expects the total in a currencies subunits
                     url: `/payment/create?total=${getBasketTotal(basket) * 100}`
                 });
                setclientSecret(response.data.client_secret) 
-            } catch (error) {
-               alert("Please add something in your Basket"); 
-            }
         }
         getClientSecret();
     }, [basket])
@@ -90,7 +88,7 @@ function Payment() {
                     <h3>Review items and delivery</h3>
                 </div>
                 <div className="payment_item">
-                    {basket.map((item,index) => (
+                    {basket?.map((item,index) => (
                         <CheckoutProduct 
                         key={index}
                         id={item.id} 

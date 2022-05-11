@@ -13,7 +13,7 @@ import { auth } from '../firebase';
 import { useStateValue } from '../StateProvider';
 import { setUser } from '../Action';
 import StripeElement from './StripeElement';
-import Payment from './Payment';
+// import Payment from './Payment';
 // import { loadStripe } from "@stripe/stripe-js";
 // import { Elements } from "@stripe/react-stripe-js";
 

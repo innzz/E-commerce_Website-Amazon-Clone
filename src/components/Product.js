@@ -8,21 +8,7 @@ function Product({id,title,price,image,rating,type}) {
   // eslint-disable-next-line
   const [{ basket },dispatch] = useStateValue();
   const addToBasket = ()=>{
-    console.log(basket)
-    localStorage.setItem("Basket",JSON.stringify(basket));
-    //Sending action through dispatch directly
-
-    // dispatch({
-      //   type:'ADD_TO_BASKET',
-      //   item:{
-        //     id:id,
-        //     title:title,
-        //     price:price,
-        //     image:image,
-        //     rating:rating
-        //   }
-        // })
-
+        
         //Sending action through dispatch making action file
         dispatch(addToBasketAction(id,title,price,image,rating,type));
       }

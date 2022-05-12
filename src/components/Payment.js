@@ -1,26 +1,22 @@
 import React from 'react';
-import './Payment.css';
-import { useStateValue } from './StateProvider';
-import CheckoutProduct from './components/CheckoutProduct';
+import '../components/Payment.css';
+import { useStateValue } from '../StateProvider';
+import CheckoutProduct from './CheckoutProduct';
 import {Link, useNavigate} from 'react-router-dom';
 import { useState , useEffect } from 'react';
-import { CardElement } from '@stripe/react-stripe-js';
+import { CardElement,useElements, useStripe } from '@stripe/react-stripe-js';
 import CurrencyFormat from 'react-currency-format';
-import { getBasketTotal } from './reducer';
+import { getBasketTotal } from '../reducer';
 import axios from 'axios';
-import PaymentForm from './PaymentForm';
-import { loadStripe } from "@stripe/stripe-js";
-import { Elements } from "@stripe/react-stripe-js";
-
-const stripePromise =  loadStripe('pk_test_51KuKq4SBGQM7bc6w1NaxMQ7th0GLJ5jRtaGpoJ1DIUNGm2Ucjv1wNvA6FjB7K74ygcIG6u6u0z75J6sWZtyRKHnL00lE1EiqES');
 
 
 function Payment() {
+
     const navigate = useNavigate();
     const [{basket,user}, dispatch] = useStateValue();
 
-    // const stripe = useStripe();
-    // const elements = useElements();
+    const stripe = useStripe();
+    const elements = useElements();
 
     const [succeeded, setsucceeded] = useState(false);
     const [processing, setprocessing] = useState("");
@@ -43,28 +39,28 @@ function Payment() {
         getClientSecret();
     }, [basket])
 
-    // console.log('THE SECRET IS >>>', clientSecret)
+    console.log('THE SECRET IS >>>', clientSecret)
     
 
     
-    // const handleOnSubmit= async (e)=>{
-    //     e.preventDefault();
-    //     setprocessing(true);
+    const handleOnSubmit= async (e)=>{
+        e.preventDefault();
+        setprocessing(true);
 
-    //     const payload = await stripe.confirmCardPayment(clientSecret, {
-    //         payment_method:{
-    //             card: elements.getElement(CardElement)
-    //         }
-    //     }).then(({ paymentIntent })=>{
-    //         //paymentIntent = payment confirmation
-    //         setsucceeded(true);
-    //         seterror(null);
-    //         setprocessing(false);
+        const payload = await stripe.confirmCardPayment(clientSecret, {
+            payment_method:{
+                card: elements.getElement(CardElement)
+            }
+        }).then(({ paymentIntent })=>{
+            //paymentIntent = payment confirmation
+            setsucceeded(true);
+            seterror(null);
+            setprocessing(false);
 
-    //         navigate('/orders',{replace:true});
+            navigate('/orders',{replace:true});
             
-    //     }) 
-    // };
+        }) 
+    };
     
     const handleOnChange = (e)=>{
         setdisabled(e.empty);
@@ -109,9 +105,27 @@ function Payment() {
                 </div>
                 <div className="payment_details">
                     {/* Stripe magic will be here */}
-                    <Elements stripe={stripePromise}>
-                    <PaymentForm />
-                    </Elements>
+                    <form onSubmit={handleOnSubmit}>
+                        <CardElement onChange={handleOnChange}/>
+
+                        <div className="payment_priceContainer">
+                        <CurrencyFormat 
+                            renderText={(value)=>(
+                                <>
+                                    <h3>Order Total: {value}</h3>
+                                </>
+                            )}
+                            decimalScale={2}
+                            value={getBasketTotal(basket)}
+                            displayType={"text"}
+                            thousandSeparator={true}
+                            prefix={'₹'}
+                        />
+                        <button disabled={processing || disabled || succeeded}>
+                            <span>{processing ? <p>Processing</p>:"Buy Now"}</span>
+                        </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

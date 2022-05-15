@@ -7,7 +7,9 @@ import { useState , useEffect } from 'react';
 import { CardElement,useElements, useStripe } from '@stripe/react-stripe-js';
 import CurrencyFormat from 'react-currency-format';
 import { getBasketTotal } from '../reducer';
+import { emptyBasket } from '../Action';
 import axios from 'axios';
+import { db } from '../firebase';
 
 
 function Payment() {
@@ -26,6 +28,8 @@ function Payment() {
 
 
     axios.defaults.baseURL="http://localhost:5001/clone-228d2/us-central1/api";
+
+
     useEffect(() => {
         // generate the special stripe secret which allows us to charge a customer
         const getClientSecret = async () => {
@@ -39,11 +43,11 @@ function Payment() {
         getClientSecret();
     }, [basket])
 
-    console.log('THE SECRET IS >>>', clientSecret)
+    // console.log('THE SECRET IS >>>', clientSecret)
     
 
     
-    const handleOnSubmit= async (e)=>{
+    const handleOnSubmit = async (e)=>{
         e.preventDefault();
         setprocessing(true);
 
@@ -53,9 +57,18 @@ function Payment() {
             }
         }).then(({ paymentIntent })=>{
             //paymentIntent = payment confirmation
+
+            db.collection('users').doc(user?.uid).collection('orders').doc(paymentIntent.id).set({
+                basket:basket,
+                amount: paymentIntent.amount,
+                created: paymentIntent.created
+            })
+
             setsucceeded(true);
             seterror(null);
             setprocessing(false);
+
+            dispatch(emptyBasket());
 
             navigate('/orders',{replace:true});
             

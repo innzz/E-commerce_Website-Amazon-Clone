@@ -5,7 +5,7 @@ import { removeFromBasket } from '../Action';
 import { useStateValue } from '../StateProvider';
 
 
-function CheckoutProduct({id,image,price,title,rating}) {
+function CheckoutProduct({id,image,price,title,rating,hideButton}) {
     // eslint-disable-next-line
     const [{basket},dispatch] = useStateValue();
 
@@ -25,7 +25,9 @@ function CheckoutProduct({id,image,price,title,rating}) {
                 {Array(rating).fill().map((_,i) => ( <StarIcon key={i}/>
                 ))}
             </div>
+            {!hideButton && (
            <button className="checkoutProduct_removeButton" onClick={removeItem}>Remove from basket</button>
+            )}
         </div>
     </div>
   )

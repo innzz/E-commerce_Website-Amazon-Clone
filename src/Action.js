@@ -28,3 +28,9 @@ export const setUser = (authUser)=>{
         user:authUser
     }
 } 
+
+export const emptyBasket = ()=>{
+    return {
+        type:'EMPTY_BASKET'
+    }
+}

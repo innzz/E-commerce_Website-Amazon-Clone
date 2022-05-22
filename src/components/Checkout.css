@@ -15,3 +15,36 @@
     padding: 10px;
     border-bottom: 1px solid lightgray;
 }
+
+.checkout_title > .emptyCart{
+    display: flex;
+    height: 80px;
+    background-color: rgb(172, 169, 169);
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    margin: 20px 0px;
+}
+
+.checkout_title > .emptyCart > h4{
+    font-size: 30px;
+    font-weight: 400;
+    margin-right: 20px;
+}
+
+
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    .checkout{
+        flex-direction: column;
+    }
+
+    .checkout_right{
+        display: flex;
+        justify-content: center;
+    }
+
+    .checkout_title > .emptyCart > h4{
+        font-size: 20px;
+    }
+  }

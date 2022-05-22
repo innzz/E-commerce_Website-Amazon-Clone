@@ -22,8 +22,7 @@ function Header() {
         src="https://pngimg.com/uploads/amazon/amazon_PNG25.png"
         alt=""/>
       </Link>
-      <div
-        className="header_search">
+      <div className="header_search">
         <input
           type="text"
           className="header_searchInput" />
@@ -68,8 +67,7 @@ function Header() {
           </div>
         </Link>
       </div>
-
-    </div>
+      </div>
   )
 }
 

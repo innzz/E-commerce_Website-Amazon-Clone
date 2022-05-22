@@ -19,3 +19,15 @@
     margin-bottom: -150px;
     mask-image: linear-gradient(to bottom, rgba(0,0,0,1),rgba(0,0,0,0));
 }
+
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    .home_row{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .home_image{
+        margin-bottom: -70px;
+    }
+  }

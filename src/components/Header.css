@@ -71,3 +71,44 @@
 .header_basketCount{
     margin: 0px 10px;
 }
+
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    .header{
+        flex-direction: column;
+        height: 115px;
+    }
+    .header_logo{
+        height: 25px;
+    }
+
+    .header_searchInput{
+        height: 10px;
+        padding: 5px;
+    }
+
+    .header_searchIcon{
+        padding: 1px;
+        height: 19px !important;
+    }
+
+    .header_optionLineOne{
+        font-size: 10px;
+    }
+    
+    .header_optionLineTwo{
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .header_nav{
+        padding-top: 20px;
+        padding-bottom: 20px;
+        width: 90%;
+    }
+
+    .header_search{
+        padding-top: 5px;
+        width: 70%;
+    }
+  }

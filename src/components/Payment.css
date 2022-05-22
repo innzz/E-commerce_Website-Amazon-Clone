@@ -48,3 +48,17 @@
     border-color: #a88734 #9c7e31 #846a29;
     color: #111;
 }
+
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+    .payment_section {
+        flex-direction: column;
+    }
+
+    .payment_details > form{
+        margin: 20px 20px;
+    }
+    .payment_details > form > .payment_priceContainer{
+        margin: 30px 0px;
+    }
+  }

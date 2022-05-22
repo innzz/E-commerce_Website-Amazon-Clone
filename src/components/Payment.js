@@ -22,9 +22,11 @@ function Payment() {
 
     const [succeeded, setsucceeded] = useState(false);
     const [processing, setprocessing] = useState("");
+    // eslint-disable-next-line
     const [error, seterror] = useState(null);
     const [disabled, setdisabled] = useState(true);
     const [clientSecret, setclientSecret] = useState(true);
+    const [disabledButton,setDisabledButton] = useState({});
 
 
     axios.defaults.baseURL="http://localhost:5001/clone-228d2/us-central1/api";
@@ -41,8 +43,17 @@ function Payment() {
                setclientSecret(response.data.client_secret) 
         }
         getClientSecret();
+        
     }, [basket])
-
+    
+    useEffect(()=> {
+        if(clientSecret === true){
+            setDisabledButton({backgroundColor:"grey",border:"grey",opacity:"0.5"});
+        }else{
+            setDisabledButton({});
+        }
+    }, [clientSecret])
+    
     // console.log('THE SECRET IS >>>', clientSecret)
     
 
@@ -51,6 +62,7 @@ function Payment() {
         e.preventDefault();
         setprocessing(true);
 
+        // eslint-disable-next-line
         const payload = await stripe.confirmCardPayment(clientSecret, {
             payment_method:{
                 card: elements.getElement(CardElement)
@@ -134,8 +146,8 @@ function Payment() {
                             thousandSeparator={true}
                             prefix={'₹'}
                         />
-                        <button disabled={processing || disabled || succeeded}>
-                            <span>{processing ? <p>Processing</p>:"Buy Now"}</span>
+                        <button style={disabledButton} disabled={processing || disabled || succeeded || clientSecret === true }>
+                            <span >{processing ? <p>Processing</p>:"Buy Now"}</span>
                         </button>
                         </div>
                     </form>
